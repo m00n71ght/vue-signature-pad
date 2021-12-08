@@ -11,8 +11,8 @@ export default defineComponent({
     undo() {
       this.$refs.signaturePad.undoSignature();
     },
-    save() {
-      const { isEmpty, data } = this.$refs.signaturePad.saveSignature();
+    async save() {
+      const { isEmpty, data } = await this.$refs.signaturePad.saveSignature();
       console.log(isEmpty);
       console.log(data);
     }

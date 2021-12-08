@@ -101,8 +101,19 @@ export default defineComponent({
       this.signatureData = TRANSPARENT_PNG;
       this.signaturePad.fromData(data);
     },
+    fromBlobToDataUrl (type, encoderOptions) {
+      const canvas = this.$refs.signaturePadCanvas;
 
-    saveSignature(type = IMAGE_TYPES[0], encoderOptions) {
+      return new Promise((resolve, _) => {
+        canvas.toBlob((blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        }, type, encoderOptions)
+      });
+    },
+
+    async saveSignature(type = IMAGE_TYPES[0], encoderOptions) {
       const { signaturePad } = this;
       const status = { isEmpty: false, data: undefined };
 
@@ -119,7 +130,7 @@ export default defineComponent({
           isEmpty: true
         };
       } else {
-        this.signatureData = signaturePad.toDataURL(type, encoderOptions);
+        this.signatureData = await this.fromBlobToDataUrl(type, encoderOptions);
 
         return {
           ...status,
