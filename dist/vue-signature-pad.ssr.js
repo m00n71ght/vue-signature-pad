@@ -211,6 +211,10 @@ var TRANSPARENT_PNG = {
       default: function _default() {
         return [];
       }
+    },
+    customRatio: {
+      type: Number,
+      default: 0
     }
   },
   data: function data() {
@@ -262,7 +266,7 @@ var TRANSPARENT_PNG = {
     resizeCanvas: function resizeCanvas() {
       var canvas = this.$refs.signaturePadCanvas;
       var data = this.signaturePad.toData();
-      var ratio = Math.max(window.devicePixelRatio || 1, 1);
+      var ratio = this.customRatio > 0 ? this.customRatio : Math.max(window.devicePixelRatio || 1, 1);
       canvas.width = canvas.offsetWidth * ratio;
       canvas.height = canvas.offsetHeight * ratio;
       canvas.getContext('2d').scale(ratio, ratio);

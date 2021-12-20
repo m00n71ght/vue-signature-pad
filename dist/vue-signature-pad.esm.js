@@ -45,6 +45,10 @@ var script = defineComponent({
     images: {
       type: Array,
       default: () => []
+    },
+    customRatio: {
+      type: Number,
+      default: 0
     }
   },
   data: () => ({
@@ -100,7 +104,7 @@ var script = defineComponent({
     resizeCanvas() {
       const canvas = this.$refs.signaturePadCanvas;
       const data = this.signaturePad.toData();
-      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      const ratio = this.customRatio > 0 ? this.customRatio : Math.max(window.devicePixelRatio || 1, 1);
       canvas.width = canvas.offsetWidth * ratio;
       canvas.height = canvas.offsetHeight * ratio;
       canvas.getContext('2d').scale(ratio, ratio);
